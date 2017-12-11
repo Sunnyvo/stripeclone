@@ -5,9 +5,9 @@ import _ from "lodash";
 import { TabList, Tab } from "./Tabs";
 import Checkout from "./Checkout";
 import { withStripe } from "./StripeApi";
-
-const key = "pk_test_riDOpmGdmUZOcENlKLPSTmz8";
-const secretKey = "sk_test_MeDflgoI8h0TMUfHNUu21CJN";
+import { publicKey, secretKey} from "./env.json"
+const pubKey = publicKey;
+const secKey = secretKey;
 
 class App extends Component {
   constructor(props) {
@@ -15,14 +15,14 @@ class App extends Component {
   }
 
   render() {
-    const CheckoutComponent = withStripe(Checkout, key, secretKey);
+    const CheckoutComponent = withStripe(Checkout, pubKey, secKey);
     return (
       <div className="app">
         <TabList>
           <Tab name="Checkout" default>
             <CheckoutComponent />
           </Tab>
-          <Tab name="Payments">
+          <Tab name="Charges">
             <div>
               <h2>Hello B</h2>
             </div>

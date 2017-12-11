@@ -12,6 +12,9 @@ const CARDS = {
 
 const CURRENCIES = {
   usd: "USD",
+  vnd: "VND",
+  eur: "EUR",
+  gbp: "GBP"
 };
 
 class Checkout extends Component {
@@ -27,13 +30,12 @@ class Checkout extends Component {
       description: "",
       month: "",
       year: "",
-      onCreate: true
+      onCreate: true,
+      err: "",
     };
   }
 
   createCharge = () => {
-    console.log(this.state.cardNumber)
-    console.log(this.state.currency)
     this.setState({ latestCharge: "Creating token..." }, () => {
       this.props
         .postPublic("tokens", {
@@ -42,7 +44,7 @@ class Checkout extends Component {
           "card[exp_year]": this.state.year
         })
         .then(token => {
-          // console.log(token)
+          console.log(token)
           this.setState({ latestCharge: "Creating charge..." }, () => {
             this.props
               .postSecret("charges", {
