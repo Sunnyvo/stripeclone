@@ -1,0 +1,58 @@
+.card {
+  padding: 16px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.header {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+  margin: 0px;
+}
+
+.input {
+  flex:1;
+}
+.card_label {
+  font-size: 14px;
+  color: grey;
+}
+
+.card_number_row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.amount_row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.select {
+  margin-left: 24px;
+}
+.description {
+  margin-top: 4px;
+  max-width: 350px !important;
+  min-width: 150px !important;
+
+
+}
+
+.inputCard{
+  margin-left: 24px;
+  max-width: 50px !important;
+}
+.inputMonth{
+  margin-left: 5px;
+  max-width: 40px !important;
+}
+.inputYear{
+  margin-left: 5px;
+  max-width: 40px !important;
+}
