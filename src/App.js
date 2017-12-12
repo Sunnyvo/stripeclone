@@ -5,17 +5,22 @@ import _ from "lodash";
 import { TabList, Tab } from "./Tabs";
 import Checkout from "./Checkout";
 import { withStripe } from "./StripeApi";
-import { publicKey, secretKey} from "./env.json"
+import { publicKey, secretKey} from "./env.json";
+import Charges from "./Charges";
+
 const pubKey = publicKey;
 const secKey = secretKey;
 
-class App extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
   }
 
   render() {
-    const CheckoutComponent = withStripe(Checkout, pubKey, secKey);
+    const Create = "POST";
+    const List = "GET"
+    const CheckoutComponent = withStripe(Create, Checkout, pubKey, secKey);
+    const ListChargesComponent = withStripe(List, Charges, pubKey, secKey);
     return (
       <div className="app">
         <TabList>
@@ -23,9 +28,7 @@ class App extends Component {
             <CheckoutComponent />
           </Tab>
           <Tab name="Charges">
-            <div>
-              <h2>Hello B</h2>
-            </div>
+            <ListChargesComponent />
           </Tab>
           <Tab name="Disputes">
             <div>
@@ -38,4 +41,5 @@ class App extends Component {
   }
 }
 
-export default App;
+
+

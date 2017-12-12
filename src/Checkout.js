@@ -18,7 +18,7 @@ const CURRENCIES = {
   gbp: "GBP"
 };
 
-class Checkout extends Component {
+export default class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +38,10 @@ class Checkout extends Component {
   }
 
   createCharge = () => {
-    this.setState({ latestCharge: "Creating token..." }, () => {
+    this.setState({
+      latestCharge: "Creating token...",
+      err: ""
+    }, () => {
       this.props
         .postPublic("tokens", {
           "card[number]": this.state.cardNumber,
@@ -46,37 +49,49 @@ class Checkout extends Component {
           "card[exp_year]": this.state.year
         })
         .then(token => {
-          console.log(token.error.message)
-          // return new Promise((resolve, reject)=> {
-          //     reject("cant create token!")
-          //     throw error
-          // }).catch(error => {
-          //   console.log("Error:" + error.message);
-          //   this.setState({err: error.message});
-          // })
-        })
-        .then(token => {
-          console.log(token)
-          this.setState({ latestCharge: "Creating charge..." }, () => {
-            this.props
-              .postSecret("charges", {
-                amount: this.state.amount,
-                currency: this.state.currency,
-                description: this.state.description,
-                source: token.id
-              })
-              .then(charge => {
-                this.setState({
-                  latestCharge: charge.id,
-                  status: false
+
+          if (token.error !== undefined && token.error.message !==undefined)
+          {
+            console.log(token.error.message)
+            this.setState(
+              {
+                err: token.error.message
+              }
+            )
+          }
+          else{
+            this.setState({ latestCharge: "Creating charge..." }, () => {
+              this.props
+                .postSecret("charges", {
+                  amount: this.state.amount,
+                  currency: this.state.currency,
+                  description: this.state.description,
+                  source: token.id
+                })
+                .then(charge => {
+                  this.setState({
+                    latestCharge: charge.id,
+                    status: false
+                  });
+                  if (charge.error !== undefined && charge.error.message !==undefined)
+                  {
+                    console.log(charge.error.message)
+                    this.setState(
+                      {
+                        err: charge.error.message
+                      }
+                    )
+                  }
                 });
-              });
-          });
+            });
+          }
         });
     });
   };
 
   render() {
+    console.log("sunny1:");
+		console.log(this.props);
     const showCardNumberWarning = this.state.cardNumber.trim().length == 0;
     return (
       <Card className="card">
@@ -168,4 +183,3 @@ class Checkout extends Component {
   };
 }
 
-export default Checkout;

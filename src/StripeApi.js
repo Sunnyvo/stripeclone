@@ -2,10 +2,6 @@ import React from "react";
 import _ from "lodash";
 
 const request = (route, key, method, data) => {
-  // console.log(route)
-  // console.log(key)
-  // console.log(method)
-  // console.log(data)
 
   const dataStr =
     method == "GET"
@@ -14,7 +10,7 @@ const request = (route, key, method, data) => {
           .map(a => `${a[0]}=${a[1]}`)
           .join("&");
   return fetch(`https://api.stripe.com/v1/${route}`, {
-    method: "POST",
+    method: method,
     headers: {
       'Accept': "application/json",
       'Authorization': `Bearer  ${key}`,
@@ -24,14 +20,14 @@ const request = (route, key, method, data) => {
   }).then(data => data.json());
 };
 
-export function withStripe(WrappedComponent, publicKey, secretKey) {
+export function withStripe(method, WrappedComponent, publicKey, secretKey) {
   return class extends React.Component {
     postPublic(route, postData) {
-      return request(route, publicKey, "POST", postData);
+      return request(route, publicKey, method , postData);
     }
 
     postSecret(route, postData) {
-      return request(route, secretKey, "POST", postData);
+      return request(route, secretKey, method , postData);
     }
 
     render() {
@@ -45,3 +41,5 @@ export function withStripe(WrappedComponent, publicKey, secretKey) {
     }
   };
 }
+
+
