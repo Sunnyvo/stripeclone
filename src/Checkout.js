@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import "./Checkout.css";
 import _ from "lodash";
 import "bulma/css/bulma.css";
-import {Field, Label, Control, Input, Icon, Help, Button, Select, Card, TextArea} from "bloomer";
+import {Title, Field, Label, Control, Input, Icon, Help, Button, Select, Card, TextArea} from "bloomer";
 import "./font-awesome/css/font-awesome.css";
+import { error } from "util";
 
 const CARDS = {
   1: "VISA",
@@ -32,6 +33,7 @@ class Checkout extends Component {
       year: "",
       onCreate: true,
       err: "",
+      infoSuccess: ""
     };
   }
 
@@ -42,6 +44,15 @@ class Checkout extends Component {
           "card[number]": this.state.cardNumber,
           "card[exp_month]": this.state.month,
           "card[exp_year]": this.state.year
+        })
+        .then(token => {
+          return new Promise((resolve, reject)=> {
+              reject("cant create token!")
+              throw error
+          }).catch(error => {
+            console.log("Error:" + error.message);
+            this.setState({err: error.message});
+          })
         })
         .then(token => {
           console.log(token)
@@ -128,6 +139,15 @@ class Checkout extends Component {
         <Button isColor="info" onClick={this.createCharge}>
           CHARGE
         </Button>
+        <Help isColor="info">
+          {this.state.latestCharge}
+        </Help>
+        <Help isColor="danger">
+          {this.state.err}
+        </Help>
+        <Help isColor="success">
+          {this.state.infoSuccess}
+        </Help>
       </Card>
     );
   }
