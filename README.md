@@ -31,5 +31,5 @@ The following **additional** features are implemented:
 - [ ] List anything else that you can get done to improve the app functionality!
 
 ## Information:
-Video:
-github:
+Video: https://youtu.be/gCloBZ6YMq4
+github: https://github.com/Sunnyvo/stripeclone
