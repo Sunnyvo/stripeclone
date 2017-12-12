@@ -46,13 +46,14 @@ class Checkout extends Component {
           "card[exp_year]": this.state.year
         })
         .then(token => {
-          return new Promise((resolve, reject)=> {
-              reject("cant create token!")
-              throw error
-          }).catch(error => {
-            console.log("Error:" + error.message);
-            this.setState({err: error.message});
-          })
+          console.log(token.error.message)
+          // return new Promise((resolve, reject)=> {
+          //     reject("cant create token!")
+          //     throw error
+          // }).catch(error => {
+          //   console.log("Error:" + error.message);
+          //   this.setState({err: error.message});
+          // })
         })
         .then(token => {
           console.log(token)
